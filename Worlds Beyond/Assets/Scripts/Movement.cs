@@ -16,9 +16,6 @@ public class Movement : MonoBehaviour
 
     public LayerMask obstacleMask;
 
-    public float Rotation = 5;
-
-    public float rotation_speed;
 
 
 
