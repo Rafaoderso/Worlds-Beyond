@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 12384747}
   - component: {fileID: 12384746}
   - component: {fileID: 12384750}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -145,6 +145,7 @@ GameObject:
   m_IsActive: 1
 --- !u!65 &12384746
 BoxCollider:
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -367,14 +368,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 381580337}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: 0.7435209, z: -0, w: 0.66871274}
   m_LocalPosition: {x: 92.430534, y: 1.04, z: 100.77991}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 96.064, z: 0}
 --- !u!114 &381580344
 MonoBehaviour:
   m_ObjectHideFlags: 0
