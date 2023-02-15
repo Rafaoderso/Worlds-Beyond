@@ -4,11 +4,14 @@ using UnityEngine;
 using UnityEngine.AI;
 public class AIController : MonoBehaviour
 {
-    public NavMeshAgent navMeshAgent;               
+    public NavMeshAgent navMeshAgent;
+    public int health = 100;
     public float startWaitTime = 4;                 
     public float timeToRotate = 2;                  
     public float speedWalk = 6;                     
-    public float speedRun = 9;                      
+    public float speedRun = 9;
+
+    
 
     public float viewRadius = 15;                   
     public float viewAngle = 90;                    
@@ -228,5 +231,19 @@ public class AIController : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawRay(transform.position, leftRayDirection * viewRadius);
         Gizmos.DrawRay(transform.position, rightRayDirection * viewRadius);
+    }
+
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        Destroy(gameObject);
     }
 }

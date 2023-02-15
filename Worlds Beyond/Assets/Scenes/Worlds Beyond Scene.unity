@@ -389,6 +389,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   navMeshAgent: {fileID: 381580338}
+  health: 100
   startWaitTime: 4
   timeToRotate: 2
   speedWalk: 6
@@ -418,8 +419,8 @@ GameObject:
   - component: {fileID: 592535759}
   - component: {fileID: 592535758}
   - component: {fileID: 592535763}
-  - component: {fileID: 592535762}
   - component: {fileID: 592535764}
+  - component: {fileID: 592535765}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -505,23 +506,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0.482, y: 0.303, z: 0.438}
---- !u!114 &592535762
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 592535757}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5d3d3903a75ce7419ba1938af4f7b76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  camera: {fileID: 1787534938}
-  agent: {fileID: 592535763}
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 128
 --- !u!195 &592535763
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -560,6 +544,25 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &592535765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 592535757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 714f8920735dc8940a0bd04ba802053e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  damage: 20
+  camera: {fileID: 1787534938}
+  agent: {fileID: 592535763}
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 2147483647
 --- !u!1 &973640521
 GameObject:
   m_ObjectHideFlags: 0
