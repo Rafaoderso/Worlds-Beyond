@@ -44,20 +44,20 @@ public class Player : MonoBehaviour
         }
 
 
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
+    //    if (Input.GetKeyDown(KeyCode.Q))
+    //    {
+    //        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+    //        RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit))
-            {
-                Enemy enemy = hit.transform.GetComponent<Enemy>();
-                if (enemy != null)
-                {
-                    enemy.TakeDamage(damage);
-                }
-            }
-        }
+    //        if (Physics.Raycast(ray, out hit))
+    //        {
+    //            Enemy enemy = hit.transform.GetComponent<Enemy>();
+    //            if (enemy != null)
+    //            {
+    //                enemy.TakeDamage(damage);
+    //            }
+    //        }
+    //    }
 
     }
 
