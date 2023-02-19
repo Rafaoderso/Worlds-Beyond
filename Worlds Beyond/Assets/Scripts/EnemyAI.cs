@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-public class AIController : MonoBehaviour
+public class EnemyAI : MonoBehaviour
 {
     public NavMeshAgent navMeshAgent;
     public int health = 100;
@@ -23,41 +23,41 @@ public class AIController : MonoBehaviour
 
 
     public Transform[] waypoints;                   
-    int m_CurrentWaypointIndex;                     
+    int CurrentWayPoint;                     
 
     Vector3 playerLastPosition = Vector3.zero;      
-    Vector3 m_PlayerPosition;                       
+    Vector3 PlayerPosition;                       
 
-    float m_WaitTime;                               
-    float m_TimeToRotate;                           
-    bool m_playerInRange;                           
-    bool m_PlayerNear;                              
-    bool m_IsPatrol;                               
-    bool m_CaughtPlayer;                            
+    float WaitTime;                               
+    float TimeToRotate;                           
+    bool PlayerInRange;                           
+    bool PlayerNear;                              
+    bool IsPatroling;                               
+    bool CaughtAPlayer;                            
 
     void Start()
     {
-        m_PlayerPosition = Vector3.zero;
-        m_IsPatrol = true;
-        m_CaughtPlayer = false;
-        m_playerInRange = false;
-        m_PlayerNear = false;
-        m_WaitTime = startWaitTime;                 
-        m_TimeToRotate = timeToRotate;
+        PlayerPosition = Vector3.zero;
+        IsPatroling = true;
+        CaughtAPlayer = false;
+        PlayerInRange = false;
+        PlayerNear = false;
+        WaitTime = startWaitTime;                 
+        TimeToRotate = timeToRotate;
 
-        m_CurrentWaypointIndex = 0;                 
+        CurrentWayPoint = 0;                 
         navMeshAgent = GetComponent<NavMeshAgent>();
 
         navMeshAgent.isStopped = false;
         navMeshAgent.speed = speedWalk;             
-        navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].position);
+        navMeshAgent.SetDestination(waypoints[CurrentWayPoint].position);
     }
 
     private void Update()
     {
         EnviromentView();                      
 
-        if (!m_IsPatrol)
+        if (!IsPatroling)
         {
             Chasing();
         }
@@ -69,40 +69,40 @@ public class AIController : MonoBehaviour
 
     private void Chasing()
     {
-        m_PlayerNear = false;                    
+        PlayerNear = false;                    
         playerLastPosition = Vector3.zero;          
 
-        if (!m_CaughtPlayer)
+        if (!CaughtAPlayer)
         {
             Move(speedRun);
-            navMeshAgent.SetDestination(m_PlayerPosition);        
+            navMeshAgent.SetDestination(PlayerPosition);        
         }
         if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)  
         {
-            if (m_WaitTime <= 0 && !m_CaughtPlayer && Vector3.Distance(transform.position, GameObject.FindGameObjectWithTag("Player").transform.position) >= 6f)
+            if (WaitTime <= 0 && !CaughtAPlayer && Vector3.Distance(transform.position, GameObject.FindGameObjectWithTag("Player").transform.position) >= 6f)
             {
        
-                m_IsPatrol = true;
-                m_PlayerNear = false;
+                IsPatroling = true;
+                PlayerNear = false;
                 Move(speedWalk);
-                m_TimeToRotate = timeToRotate;
-                m_WaitTime = startWaitTime;
-                navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].position);
+                TimeToRotate = timeToRotate;
+                WaitTime = startWaitTime;
+                navMeshAgent.SetDestination(waypoints[CurrentWayPoint].position);
             }
             else
             {
                 if (Vector3.Distance(transform.position, GameObject.FindGameObjectWithTag("Player").transform.position) >= 2.5f)
                     Stop();
-                m_WaitTime -= Time.deltaTime;
+                WaitTime -= Time.deltaTime;
             }
         }
     }
 
     private void Patroling()
     {
-        if (m_PlayerNear)
+        if (PlayerNear)
         {
-            if (m_TimeToRotate <= 0)
+            if (TimeToRotate <= 0)
             {
                 Move(speedWalk);
                 LookingPlayer(playerLastPosition);
@@ -110,26 +110,26 @@ public class AIController : MonoBehaviour
             else
             {
                 Stop();
-                m_TimeToRotate -= Time.deltaTime;
+                TimeToRotate -= Time.deltaTime;
             }
         }
         else
         {
-            m_PlayerNear = false;  
+            PlayerNear = false;  
             playerLastPosition = Vector3.zero;
-            navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].position);  
+            navMeshAgent.SetDestination(waypoints[CurrentWayPoint].position);  
             if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
             {
-                if (m_WaitTime <= 0)
+                if (WaitTime <= 0)
                 {
                     NextPoint();
                     Move(speedWalk);
-                    m_WaitTime = startWaitTime;
+                    WaitTime = startWaitTime;
                 }
                 else
                 {
                     Stop();
-                    m_WaitTime -= Time.deltaTime;
+                    WaitTime -= Time.deltaTime;
                 }
             }
         }
@@ -142,8 +142,8 @@ public class AIController : MonoBehaviour
 
     public void NextPoint()
     {
-        m_CurrentWaypointIndex = (m_CurrentWaypointIndex + 1) % waypoints.Length;
-        navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].position);
+        CurrentWayPoint = (CurrentWayPoint + 1) % waypoints.Length;
+        navMeshAgent.SetDestination(waypoints[CurrentWayPoint].position);
     }
 
     void Stop()
@@ -160,7 +160,7 @@ public class AIController : MonoBehaviour
 
     void CaughtPlayer()
     {
-        m_CaughtPlayer = true;
+        CaughtAPlayer = true;
     }
 
     void LookingPlayer(Vector3 player)
@@ -168,18 +168,18 @@ public class AIController : MonoBehaviour
         navMeshAgent.SetDestination(player);
         if (Vector3.Distance(transform.position, player) <= 0.3)
         {
-            if (m_WaitTime <= 0)
+            if (WaitTime <= 0)
             {
-                m_PlayerNear = false;
+                PlayerNear = false;
                 Move(speedWalk);
-                navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].position);
-                m_WaitTime = startWaitTime;
-                m_TimeToRotate = timeToRotate;
+                navMeshAgent.SetDestination(waypoints[CurrentWayPoint].position);
+                WaitTime = startWaitTime;
+                TimeToRotate = timeToRotate;
             }
             else
             {
                 Stop();
-                m_WaitTime -= Time.deltaTime;
+                WaitTime -= Time.deltaTime;
             }
         }
     }
@@ -197,23 +197,23 @@ public class AIController : MonoBehaviour
                 float dstToPlayer = Vector3.Distance(transform.position, player.position);
                 if (!Physics.Raycast(transform.position, dirToPlayer, dstToPlayer, obstacleMask))
                 {
-                    m_playerInRange = true;            
-                    m_IsPatrol = false;                 
+                    PlayerInRange = true;            
+                    IsPatroling = false;                 
                 }
                 else
                 {
-                    m_playerInRange = false;
+                    PlayerInRange = false;
                 }
             }
             if (Vector3.Distance(transform.position, player.position) > viewRadius)
             {
 
-                m_playerInRange = false;
+                PlayerInRange = false;
             }
-            if (m_playerInRange)
+            if (PlayerInRange)
             {
 
-                m_PlayerPosition = player.transform.position;
+                PlayerPosition = player.transform.position;
             }
         }
     }
