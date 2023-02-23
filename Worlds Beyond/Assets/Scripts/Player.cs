@@ -5,8 +5,9 @@ using UnityEngine.AI;
 
 public class Player : MonoBehaviour
 {
+    public Animator animator;
+
     public int health = 100;
-    public int damage = 20;
 
     public Camera camera;
 
@@ -17,18 +18,38 @@ public class Player : MonoBehaviour
     public NavMeshAgent agent;
 
     public LayerMask obstacleMask;
+    public LayerMask enemyLayers;
+
+    public GameObject Sword;
+    public bool CanAttack = true;
+    public float AttackCooldown = 1.0f;
+    public bool IsAttacking = false;
+
+    public bool isWalkTriggered;
+
 
 
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
     {
+        //Debug.Log(agent.velocity.magnitude);
+
+        if (agent.velocity.magnitude <= 0 && isWalkTriggered)
+        {
+            animator.SetFloat("Speed", 0);
+
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
+            StartCoroutine(WalkAnimationDelay(0.2f));
+            animator.SetFloat("Speed", 1);
 
             Ray ray = camera.ScreenPointToRay(Input.mousePosition);
 
@@ -38,28 +59,55 @@ public class Player : MonoBehaviour
                 if (hit.collider.CompareTag(groundTag))
                 {
                     agent.SetDestination(hit.point);
+                   
                 }
             }
 
         }
 
 
-    //    if (Input.GetKeyDown(KeyCode.Q))
-    //    {
-    //        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-    //        RaycastHit hit;
 
-    //        if (Physics.Raycast(ray, out hit))
-    //        {
-    //            Enemy enemy = hit.transform.GetComponent<Enemy>();
-    //            if (enemy != null)
-    //            {
-    //                enemy.TakeDamage(damage);
-    //            }
-    //        }
-    //    }
+
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            if (CanAttack)
+            {
+                Attack();
+            }
+            
+        }
 
     }
+
+    private IEnumerator WalkAnimationDelay(float timeToWait)
+    {
+        isWalkTriggered = false;
+        yield return new WaitForSeconds(timeToWait);
+        isWalkTriggered = true;
+    }
+
+
+    void Attack()
+    {
+        IsAttacking = true;
+        CanAttack = false;
+        animator.SetTrigger("Attack");
+        StartCoroutine(ResetAttackCooldown());
+    }
+
+    IEnumerator ResetAttackCooldown()
+    {
+        yield return new WaitForSeconds(AttackCooldown);
+        CanAttack = true;
+    }
+
+    IEnumerator ResetAttackbool()
+    {
+        yield return new WaitForSeconds(AttackCooldown);
+        CanAttack = true;
+    }
+
 
     public void TakeDamage(int damage)
     {

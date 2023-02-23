@@ -6,6 +6,8 @@ public class EnemyAI : MonoBehaviour
 {
     public NavMeshAgent navMeshAgent;
     public int health = 100;
+    int currentHealth;
+
     public float startWaitTime = 4;                 
     public float timeToRotate = 2;                  
     public float speedWalk = 6;                     
@@ -33,25 +35,29 @@ public class EnemyAI : MonoBehaviour
     bool PlayerInRange;                           
     bool PlayerNear;                              
     bool IsPatroling;                               
-    bool CaughtAPlayer;                            
+    bool CaughtAPlayer;
 
     void Start()
     {
+        currentHealth = health;
+
         PlayerPosition = Vector3.zero;
         IsPatroling = true;
         CaughtAPlayer = false;
         PlayerInRange = false;
         PlayerNear = false;
-        WaitTime = startWaitTime;                 
+        WaitTime = startWaitTime;
         TimeToRotate = timeToRotate;
 
-        CurrentWayPoint = 0;                 
+        CurrentWayPoint = 0;
         navMeshAgent = GetComponent<NavMeshAgent>();
 
         navMeshAgent.isStopped = false;
-        navMeshAgent.speed = speedWalk;             
+        navMeshAgent.speed = speedWalk;
         navMeshAgent.SetDestination(waypoints[CurrentWayPoint].position);
+
     }
+
 
     private void Update()
     {
@@ -233,10 +239,13 @@ public class EnemyAI : MonoBehaviour
         Gizmos.DrawRay(transform.position, rightRayDirection * viewRadius);
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int attackDamage)
     {
-        health -= damage;
-        if (health <= 0)
+        currentHealth -= attackDamage;
+
+        Chasing();
+
+        if (currentHealth <=0)
         {
             Die();
         }
