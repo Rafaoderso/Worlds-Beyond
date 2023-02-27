@@ -5,6 +5,7 @@ using UnityEngine.AI;
 public class EnemyAI : MonoBehaviour
 {
     public NavMeshAgent navMeshAgent;
+    public Animator animator;
     public float health = 100;
     float currentHealth;
 
@@ -51,6 +52,7 @@ public class EnemyAI : MonoBehaviour
 
         CurrentWayPoint = 0;
         navMeshAgent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
 
         navMeshAgent.isStopped = false;
         navMeshAgent.speed = speedWalk;
@@ -76,7 +78,8 @@ public class EnemyAI : MonoBehaviour
     private void Chasing()
     {
         PlayerNear = false;                    
-        playerLastPosition = Vector3.zero;          
+        playerLastPosition = Vector3.zero;
+        
 
         if (!CaughtAPlayer)
         {
@@ -106,6 +109,7 @@ public class EnemyAI : MonoBehaviour
 
     private void Patroling()
     {
+
         if (PlayerNear)
         {
             if (TimeToRotate <= 0)
@@ -155,12 +159,15 @@ public class EnemyAI : MonoBehaviour
     void Stop()
     {
         navMeshAgent.isStopped = true;
+        animator.SetFloat("Speed", 0);
         navMeshAgent.speed = 0;
     }
 
     void Move(float speed)
     {
+
         navMeshAgent.isStopped = false;
+        animator.SetFloat("Speed", 1);
         navMeshAgent.speed = speed;
     }
 
