@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
 {
     public Animator animator;
 
-    public int health = 100;
+    public float health = 100;
 
     public Camera camera;
 
@@ -27,13 +27,14 @@ public class Player : MonoBehaviour
 
     public bool isWalkTriggered;
 
-
+    //public int damageMultiplier = 1f; // Multiplikator für den Schaden des Spielers
 
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+       
     }
 
     private void Update()
@@ -59,15 +60,13 @@ public class Player : MonoBehaviour
                 if (hit.collider.CompareTag(groundTag))
                 {
                     agent.SetDestination(hit.point);
-                   
+
                 }
             }
 
         }
 
-
-
-
+        
 
         if (Input.GetKeyDown(KeyCode.F))
         {
@@ -75,7 +74,7 @@ public class Player : MonoBehaviour
             {
                 Attack();
             }
-            
+
         }
 
     }
@@ -109,7 +108,7 @@ public class Player : MonoBehaviour
     }
 
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         health -= damage;
         if (health <= 0)
@@ -122,4 +121,5 @@ public class Player : MonoBehaviour
     {
         // Do something when the player dies, for example, restart the game.
     }
+
 }

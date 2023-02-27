@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class Boss : MonoBehaviour
 {
-    public int health = 500;
-    public int damage = 20;
+    public float health = 500;
+    public float damage = 20;
     public float attackDelay = 2f;
     public int phase = 1;
-    public int[] phaseHealthThresholds;
+    public float[] phaseHealthThresholds;
 
     private Player player;
 
@@ -37,7 +37,7 @@ public class Boss : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         health -= damage;
         CheckPhase();

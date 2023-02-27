@@ -5,8 +5,8 @@ using UnityEngine.AI;
 public class EnemyAI : MonoBehaviour
 {
     public NavMeshAgent navMeshAgent;
-    public int health = 100;
-    int currentHealth;
+    public float health = 100;
+    float currentHealth;
 
     public float startWaitTime = 4;                 
     public float timeToRotate = 2;                  
@@ -239,7 +239,7 @@ public class EnemyAI : MonoBehaviour
         Gizmos.DrawRay(transform.position, rightRayDirection * viewRadius);
     }
 
-    public void TakeDamage(int attackDamage)
+    public void TakeDamage(float attackDamage)
     {
         currentHealth -= attackDamage;
 

@@ -7,9 +7,10 @@ public class Weapon : MonoBehaviour
     public GameObject HitParticle;
     public Player player;
     public GameObject enemy;
+    public float damageMultiplier = 1f; // Multiplikator für den Schaden des Spielers
 
 
-    public int attackDamage = 40;
+    public float attackDamage = 40;
 
     public void Start()
     {
@@ -26,7 +27,7 @@ public class Weapon : MonoBehaviour
 
             Debug.Log("hit");
 
-            enemy.GetComponent<EnemyAI>().TakeDamage(attackDamage);
+            enemy.GetComponent<EnemyAI>().TakeDamage(attackDamage * damageMultiplier);
         }
     }
 }
